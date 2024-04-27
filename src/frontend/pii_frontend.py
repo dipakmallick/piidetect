@@ -4,6 +4,7 @@ from models import pii_rep_model
 from models import pii_add_regx_model
 import templates
 import json
+import time
 
 
 app = Flask(__name__)
@@ -33,10 +34,11 @@ def add_types():
    r=t_add.add_type(d[0]['rtype'])
    return jsonify()
 
-@app.route('/show_stats', methods=['GET'])
+@app.route('/get_init_stats', methods=['GET'])
 def get_init_stats():
    return render_template("regex_reports.html")
 
 if __name__ == '__main__':
+   #time.sleep(120)
    app.run(debug=False, host='0.0.0.0',port=5000)
    

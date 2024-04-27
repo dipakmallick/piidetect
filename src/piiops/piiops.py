@@ -11,6 +11,7 @@ tolog=Log(logpath)
 
 def initdb():
     conf=ConfigParser()
+    c=""
     try:
         p=pathlib.Path(__file__).parent.absolute() / "dbconf.ini"
         conf.read(p)
@@ -106,6 +107,7 @@ def detect_regx(r_list):
     
 def main():
     global conn
+    #time.sleep(120)
     conn=initdb()
     while True:
         regx_list=load_r_types()

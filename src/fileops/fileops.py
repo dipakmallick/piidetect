@@ -159,6 +159,7 @@ class Handler(FileSystemEventHandler):
     
 def main():
     global conn
+    #time.sleep(120)
     conn=initdb()
     setup_db()
     repo_mon=watchrepo()

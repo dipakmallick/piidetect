@@ -45,11 +45,12 @@
    </style>
    </head>
   <body>
-  <header>
+  
    <div id="navcontainer" class="container-fluid">
       <div class="container">
-         <ul class="nav nav-tabs border-bottom border-left border-right border-primary mt-2 nav-pills nav-fill navbar-brand" 
-             id="myTab" role="tablist">
+        <header>
+        <nav>
+         <ul class="nav nav-tabs mt-2 nav-pills nav-fill navbar-brand" id="myTab" role="tablist">
            <li class="nav-item" role="presentation">
              <button class="nav-link active" 
                      id="home-tab" 
@@ -61,9 +62,9 @@
            <li class="nav-item" role="presentation">
              <button class="nav-link" 
                      id="stats-tab" 
-                     data-bs-toggle="tab" data-bs-target="#stats" 
+                     data-bs-toggle="tab" data-bs-target="#stats"  
                      type="stats" role="tab" 
-                     aria-controls="stats" aria-selected="false" href="/show_stats" >Reports
+                     aria-controls="stats" aria-selected="false" href="{{ url_for('get_init_stats') }}" >Reports
              </button>
            </li>
            <li class="nav-item" role="presentation">
@@ -75,38 +76,40 @@
              </button>
            </li>
          </ul>
+        </nav>
       </header>
          <div class="tab-content " id="myTabContent">
            <div class="tab-pane fade show active" 
                 id="home" 
                 role="tabpanel" aria-labelledby="home-tab">
-             <p>
+             
                {% block add_regex %}{% endblock %}
-             </p>
+             
            </div>
            <div class="tab_pane fade" 
                 id="stats" 
                 role="tabpanel" aria-labelledby="stats-tab">
-             <p>
+             
                {% block regex_reports %}{% endblock %} 
-             </p>
+             
            </div>
            <div class="tab-pane fade" 
                 id="conf" 
                 role="tabpanel" aria-labelledby="conf-tab">
-             <p>
+             
                {% block app_settings %}{% endblock %}
-             </p>
+             
            </div>
          </div>
    </div>
-
+  </div>
     
     
 
     
     <footer class="footer">
       <span>
+      <label>
         Copyright &copy; Dipak Mallick
       </label>
       <ul>

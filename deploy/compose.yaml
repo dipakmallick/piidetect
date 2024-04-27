@@ -39,6 +39,7 @@ services:
     networks:
       - piinet-private
     build: ../src/fileops
+    restart: on-failure
 
   piiops:
     image: piiops
@@ -51,6 +52,7 @@ services:
     depends_on:
       db:
         condition: service_healthy
+    restart: on-failure
     networks:
       - piinet-private
     build: ../src/piiops
@@ -62,6 +64,7 @@ services:
     depends_on:
       db:
         condition: service_healthy
+    restart: on-failure
     networks:
       - piinet-public
       - piinet-private
