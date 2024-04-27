@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    <title>UI For PII Detection APP</title>
+  <style>
+   footer {
+      background-color: #0d6efd;
+      color: #fff;
+      padding: 1rem;
+      position: fixed;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+    }
+    
+    .footer span {
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+    }
+    
+    .footer ul {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      margin-left: auto;
+    }
+    
+    .footer li {
+      padding: 0 0.5rem;
+    }
+    
+    .footer a {
+      color: #fff;
+    }
+   </style>
+   </head>
+  <body>
+  <header>
+   <div id="navcontainer" class="container-fluid">
+      <div class="container">
+         <ul class="nav nav-tabs border-bottom border-left border-right border-primary mt-2 nav-pills nav-fill navbar-brand" 
+             id="myTab" role="tablist">
+           <li class="nav-item" role="presentation">
+             <button class="nav-link active" 
+                     id="home-tab" 
+                     data-bs-toggle="tab" data-bs-target="#home" 
+                     type="button" role="tab" 
+                     aria-controls="home" aria-selected="true" href="/">Add Regex
+             </button>
+           </li>
+           <li class="nav-item" role="presentation">
+             <button class="nav-link" 
+                     id="stats-tab" 
+                     data-bs-toggle="tab" data-bs-target="#stats" 
+                     type="stats" role="tab" 
+                     aria-controls="stats" aria-selected="false" href="/show_stats" >Reports
+             </button>
+           </li>
+           <li class="nav-item" role="presentation">
+             <button class="nav-link" 
+                     id="conf-tab" 
+                     data-bs-toggle="tab" data-bs-target="#conf" 
+                     type="button" role="tab" 
+                     aria-controls="conf" aria-selected="false">Configs
+             </button>
+           </li>
+         </ul>
+      </header>
+         <div class="tab-content " id="myTabContent">
+           <div class="tab-pane fade show active" 
+                id="home" 
+                role="tabpanel" aria-labelledby="home-tab">
+             <p>
+               {% block add_regex %}{% endblock %}
+             </p>
+           </div>
+           <div class="tab_pane fade" 
+                id="stats" 
+                role="tabpanel" aria-labelledby="stats-tab">
+             <p>
+               {% block regex_reports %}{% endblock %} 
+             </p>
+           </div>
+           <div class="tab-pane fade" 
+                id="conf" 
+                role="tabpanel" aria-labelledby="conf-tab">
+             <p>
+               {% block app_settings %}{% endblock %}
+             </p>
+           </div>
+         </div>
+   </div>
+
+    
+    
+
+    
+    <footer class="footer">
+      <span>
+        Copyright &copy; Dipak Mallick
+      </label>
+      <ul>
+        <li class="nav-item"><a href="#">Privacy Policy</a></li>
+        <li class="nav-item"><a href="#">Terms of use</a></li>
+      </ul>
+    </footer>
+  </body>
+</html>

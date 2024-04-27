@@ -1,0 +1,146 @@
+{% extends "main_template.html" %}
+{% block add_regex %}
+<div class="container overflow-hidden">
+    <div class="row gy-5">
+      <div class="col-12">
+<div class="container border-primary">
+    <div class="card shadow">
+        <h5 class="card-header">Add New PII Type</h5>
+        <div class="card-body">
+    <form id="f1">
+      <script>
+        function typeadd(tp) {
+          window.event.preventDefault();
+          t=tp.value;
+          console.log(t);
+          if(t!="")
+          {
+          console.log("Reached here")
+          var server_data = [
+          {"rtype": t}
+           ];
+           //var http = new XMLHttpRequest();
+           var url = 'add_r_type';
+           var saveData = $.ajax({
+            type: 'POST',
+            url: url,
+            data: JSON.stringify(server_data),
+            dataType: "json",
+            contentType: "application/json",
+            success: function(resultData) { alert("New RegEx Tyoe Created");},
+              });
+            //saveData.error(function() { alert("Something went wrong"); });
+            document.getElementById("f1").reset();
+            window.location.reload(); 
+            }
+        }
+          
+      </script>
+    <div class="row mb-3">
+      <label for="regxtype" class="col-sm-2 col-form-label">Enter New PII Type</label>
+      <div class="col-sm-10">
+        <input type="Regex" class="form-control" id="regxtype" >
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary" onclick="javascript:typeadd(document.getElementById('regxtype'))">Add</button>
+  </form>
+</div>
+</div>
+</div>
+</div>
+<div class="col-12">
+<div class="container border-primary" >
+    <div class="card shadow">
+        <h5 class="card-header ">Add New RegEx</h5>
+        <div class="card-body">
+    <form id="f2"> 
+      <script>
+        function regexadd(d,r) {
+          window.event.preventDefault();
+          var dl=document.getElementById(d);
+          var dpt=document.getElementById(dl.getAttribute("list"));
+          var rg_val=document.getElementById(r).value
+          if(dl.value!= "" && rg_val != "")
+          {
+          var tid=dpt.options.namedItem(dl.value).getAttribute("id");
+          console.log("reached here");
+          var server_data = [
+          {"tid": tid},
+          {"rvalue": rg_val}
+           ];
+           //var http = new XMLHttpRequest();
+           var url = 'add_regex';
+           var saveData = $.ajax({
+            type: 'POST',
+            url: url,
+            data: JSON.stringify(server_data),
+            dataType: "json",
+            contentType: "application/json",
+            success: function(resultData) { alert("New RegEx Added to the type") },
+              });
+            //saveData.error(function() { alert("Something went wrong"); });
+            document.getElementById("f2").reset();
+            window.location.reload(); 
+          
+        }
+        }
+          
+      </script>   
+        <div class="row mb-3">
+            <label for="regx_type" class="col-sm-2 col-form-label">Select RegEx Type</label>
+            <input class="form-control" list="regx_type" id="rtype" placeholder="Type to search...">
+            <datalist id="regx_type">
+              {% for r in r_types %}
+              <option id="{{ r[0] }}" name="{{ r[1] }}" value="{{ r[1] }}"></option>
+               
+              {% endfor %}
+            </datalist>  
+        </div>
+    <div class="row mb4"></div>
+    <div class="row mb-3">
+      <label for="regx" class="col-sm-2 col-form-label">Enter New RegEx</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="regx">
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary" onclick="javascript:regexadd('rtype', 'regx');">Add</button>
+  </form>
+</div>
+</div>
+</div>
+</div>
+<div class="col-12">
+  <div class="container border-primary" >
+      <div class="card shadow">
+          <h5 class="card-header "> Existing PII Type and Associated RegEx </h5>
+          <div class="card-body">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th scope="col">PII Type</th>
+                  <th scope="col">Associated RegEx</th>
+                </tr>
+              </thead>
+              <tbody>
+                
+               
+                   
+                    {% for rg in r_detail %} 
+                    <tr >  
+                    
+                    <td> {{ rg[1] }} </td>
+                    <td>{{ rg[3] }}</td>
+                  </tr>  
+                    {% endfor %}
+                  
+                  
+              
+              
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock add_regex %}

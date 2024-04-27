@@ -1,0 +1,77 @@
+services:
+  db:
+    image: mariadb
+    container_name: db
+    restart: 'always'
+    volumes:
+      - ${dbpath}:/var/lib/mysql
+    environment:
+       MYSQL_ROOT_PASSWORD: admin
+    ports:
+      - "3306:3306"
+    
+    healthcheck:
+      interval: 30s
+      retries: 3
+      test:
+        [
+          "CMD",
+          "healthcheck.sh",
+          "--su-mysql",
+          "--connect",
+          "--innodb_initialized"
+        ]
+      timeout: 30s
+    networks:
+      - piinet-private
+
+  fileops:
+    image: fileops
+    container_name: fileops
+    volumes:
+      - ${file_repo}:/src/fileops/filerepo
+      - type: bind
+        source: ${file_repo}
+        target: /src/fileops/filerepo
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - piinet-private
+    build: ../src/fileops
+
+  piiops:
+    image: piiops
+    container_name: piiops
+    volumes:
+      - ${file_repo1}:/src/piiops/filerepo
+      - type: bind
+        source: ${file_repo1}
+        target: /src/piiops/filerepo
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - piinet-private
+    build: ../src/piiops
+
+  piifrontend:
+    image: piifrontend
+    container_name: piifrontend
+    
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - piinet-public
+      - piinet-private
+    ports:
+      - ${uiport}:5000  
+    build: ../src/frontend
+    
+    
+networks:
+  piinet-private:
+    external: true
+  piinet-public:
+    external: true
