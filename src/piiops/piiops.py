@@ -11,28 +11,28 @@ tolog=Log(logpath)
 
 def initdb():
     conf=ConfigParser()
-    c=""
     try:
         p=pathlib.Path(__file__).parent.absolute() / "dbconf.ini"
         conf.read(p)
     except Exception as e:
         tolog.printlog("E", "Unable to read database config file" + repr(e))  
         exit 
-    try:
     
-        conn_param={
+    
+    conn_param={
             "host" : conf.get("dbconf","host"),
             "port" : int(conf.get("dbconf","port")),
             "user" :conf.get("dbconf","user"),
             "password" : conf.get("dbconf","password"),
             "database" : "piidb"
             }
+    try:
         c=mariadb.connect(**conn_param)
-        print(conn_param)
+        #print(conn_param)
     except Exception as e:
         tolog.printlog("E", ("Unable to connect to DB -- " + repr(e)))  
         exit 
-    return c  
+    return c
 
 def insert_to_db(f_matches,fid):
     c1=conn.cursor()
@@ -107,7 +107,7 @@ def detect_regx(r_list):
     
 def main():
     global conn
-    #time.sleep(120)
+    time.sleep(120)
     conn=initdb()
     while True:
         regx_list=load_r_types()
