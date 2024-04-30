@@ -18,5 +18,7 @@ class add_data:
             self.conn.commit()
         except Exception as e:     
             return e
-        
         return 0
+    
+    def __del__(self):
+        self.conn.close()
