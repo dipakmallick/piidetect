@@ -40,7 +40,7 @@ def insert_to_db(f_matches,fid):
     query="insert into piidb.reg_result(r_regx_type_id, r_regx_id, f_id, ln_number, r_match) values(%s,%s,%s,%s,%s)"
     try:
         c1.executemany(query,f_matches)
-        tolog.printlog("I", "Inserted total  ",len(f_matches),"  matches...")
+        tolog.printlog("I", "Inserted total  " + len(f_matches) + "  matches...")
     except Exception as e:
         tolog.printlog("E", "Unable to insert results..." + repr(e))
          
@@ -68,6 +68,7 @@ def get_f_list():
     c1.execute("select * from piidb.tab_flist where processed=0")
     f=c1.fetchall()
     #print(f)
+    c1.close()
     return f
 
 def r_detect(p):
