@@ -5,6 +5,7 @@ import time
 import mariadb
 from configparser import ConfigParser
 import re
+import schedule
 
 logpath=os.path.join(pathlib.Path(__file__).parent.absolute(), "log/piiops.log")
 tolog=Log(logpath)
@@ -15,7 +16,7 @@ def initdb():
         p=pathlib.Path(__file__).parent.absolute() / "dbconf.ini"
         conf.read(p)
     except Exception as e:
-        tolog.printlog("E", "Unable to read database config file" + repr(e))  
+        tolog.printlog("E", "Unable to read database config file" + str(e))  
         exit 
     
     
@@ -30,7 +31,7 @@ def initdb():
         c=mariadb.connect(**conn_param)
         #print(conn_param)
     except Exception as e:
-        tolog.printlog("E", ("Unable to connect to DB -- " + repr(e)))  
+        tolog.printlog("E", ("Unable to connect to DB -- " + str(e)))  
         exit 
     return c
 
@@ -42,7 +43,7 @@ def insert_to_db(f_matches,fid):
         c1.executemany(query,f_matches)
         tolog.printlog("I", "Inserted total  " + len(f_matches) + "  matches...")
     except Exception as e:
-        tolog.printlog("E", "Unable to insert results..." + repr(e))
+        tolog.printlog("E", "Unable to insert results..." + str(e))
          
     t=time.strftime('%Y-%m-%d %H:%M:%S')
     query="update piidb.tab_flist set processed=1, p_time=%s where id=%s"
@@ -50,7 +51,7 @@ def insert_to_db(f_matches,fid):
         c1.execute(query,(t,str(fid)))
         tolog.printlog("I", "File table update...")
     except Exception as e:
-        tolog.printlog("E", "Unable to update file table..." + repr(e))
+        tolog.printlog("E", "Unable to update file table..." + str(e))
     conn.commit()
     c1.close()
         
@@ -64,11 +65,11 @@ def load_r_types():
     return r
 
 def get_f_list():
-    c1=conn.cursor()
-    c1.execute("select * from piidb.tab_flist where processed=0")
-    f=c1.fetchall()
-    #print(f)
-    c1.close()
+    c2=conn.cursor()
+    c2.execute("select * from piidb.tab_flist where processed=0")
+    f=c2.fetchall()
+    print(f)
+    c2.close()
     return f
 
 def r_detect(p):
@@ -99,8 +100,9 @@ def r_detect(p):
 
             
 
-def detect_regx(r_list):
+def detect_regx():
     pattn=list()
+    r_list=load_r_types()
     for r in r_list:
         pattn.append((r[0],r[1],r[2],re.compile(r[3])))
     r_detect(pattn)
@@ -110,10 +112,11 @@ def main():
     global conn
     time.sleep(120)
     conn=initdb()
+    schedule.every(1).minutes.do(detect_regx)
+    
     while True:
-        regx_list=load_r_types()
-        detect_regx(regx_list)
-        time.sleep(120)
+        schedule.run_pending()
+        time.sleep(1)
     
 
 if __name__ == '__main__':
