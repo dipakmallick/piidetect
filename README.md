@@ -5,7 +5,7 @@
 ![2A571DFE-38D1-4299-A9F8-D9402C97AC40_1_201_a](https://github.com/dipakmallick/piidetect/assets/3126436/d403e7d2-9619-4f53-b640-776484245596)
 
 
-<dl>Deployment steps</dl> 
+<dl>Deployment steps for</dl> 
 <dd>-Download this </dd>
 <dd>-If zip then extract</dd> 
 <dd>-Go to deploy folder and run deploy.sh</dd> 
